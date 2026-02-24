@@ -29,9 +29,7 @@ This script will do all that automatically, you just have to click Y for one NuG
 
 You can Name the file or leave the name empty, in this case the script will read out the Serial Number of the laptop and name the file like that
 
-The script will either Export the file to D:\{Filename} or C:\Windows\Temp\{Filename}
-
-You can change the path within the script to you free will, but most Laptops only have one drive and then the USB Stick takes D:\
+The script will automatically detect if you have a USB drive inserted and will chose it as the main export
 
 Hope you enjoy the script
 
