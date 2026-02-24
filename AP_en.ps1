@@ -30,15 +30,18 @@ if (!$filename.Trim()) {
         Write-Host " -> CSV: $filename" -ForegroundColor Magenta
     }
 }
-#Path parameters, if D is not found it will save the csv in C:\Windows\Temp. You can change the D: path to any other you want
+#Path parameters
 $scriptPath = "$tempPath\Get-WindowsAutoPilotInfo.ps1"
-$outputPath = "D:\$filename"
 
-#If you change D: above change it here too
-#Testing if D: path is available
-if (!(Test-Path 'D:')) { 
-    $outputPath = "C:\Windows\Temp\$filename"
-    Write-Host "D: Path not found, file will be saved here -> C:\Windows\Temp" -ForegroundColor Yellow
+# Automatically find the first removable USB drive
+$usbDrive = (Get-Volume | Where-Object { $_.DriveType -eq 'Removable' -and $_.DriveLetter } | Select-Object -First 1).DriveLetter
+
+if ($usbDrive) { 
+    $outputPath = "$($usbDrive):\$filename"
+    Write-Host " -> USB Drive ($($usbDrive):) detected." -ForegroundColor Yellow
+} else {
+    $outputPath = "$tempPath\$filename"
+    Write-Host " -> No USB drive found, using fallback: $tempPath" -ForegroundColor Yellow
 }
 
 Write-Host "`nGenerating: $outputPath" -ForegroundColor Blue
