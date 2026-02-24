@@ -15,6 +15,9 @@
 3. Enter File name or leave empty for Serialnumber
 4. Finished, file will get exported
 
+## Windows Install
+You can use the script in the setup screen, by pressing Shift + F10, switch to the USB drive with cd and then just run the .bat
+
 
 
 
