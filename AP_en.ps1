@@ -1,5 +1,5 @@
 # Windows Autopilot CSV Generator
-# Feb 2026 - V1.3.5 (Corrected ASCII Banner)
+# Feb 2026 - V1.3.6 (Replaced [V] status icon with [OK])
 
 # 1. Administrative Privileges Check
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
@@ -39,7 +39,7 @@ if (-not (Test-Path $scriptPath)) {
         if ($downloadedFile -and $downloadedFile.FullName -ne $scriptPath) {
             Move-Item -Path $downloadedFile.FullName -Destination $scriptPath -Force
         }
-        Write-Host " [V] Download complete." -ForegroundColor Green
+        Write-Host " [OK] Download complete." -ForegroundColor Green
     } catch {
         Write-Host " [X] Critical Error: Could not download script." -ForegroundColor Red
         Write-Host "     Please check your internet connection." -ForegroundColor White
@@ -47,7 +47,7 @@ if (-not (Test-Path $scriptPath)) {
         exit
     }
 } else {
-    Write-Host " [V] Local script ready." -ForegroundColor Gray
+    Write-Host " [OK] Local script ready." -ForegroundColor Gray
 }
 
 # 3. Filename & Path Safety
