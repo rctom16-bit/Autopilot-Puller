@@ -1,8 +1,5 @@
 # Windows Autopilot CSV Generator
-# Feb 2026 - V1.3.2 (UTF-8 Compatibility)
-
-# Set UTF8 Encoding for the console to support fancy characters
-[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+# Feb 2026 - V1.3.5 (Corrected ASCII Banner)
 
 # 1. Administrative Privileges Check
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
@@ -13,19 +10,16 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 
 function Show-Banner {
     Clear-Host
-    Write-Host @"
-    
-  █████╗ ██╗   ██╗████████╗ ██████╗ ██████╗ ██╗██╗      ██████╗ ████████╗
- ██╔══██╗██║   ██║╚══██╔══╝██╔═══██╗██╔══██╗██║██║     ██╔═══██╗╚══██╔══╝
- ███████║██║   ██║   ██║   ██║   ██║██████╔╝██║██║     ██║   ██║   ██║   
- ██╔══██║██║   ██║   ██║   ██║   ██║██╔═══╝ ██║██║     ██║   ██║   ██║   
- ██║  ██║╚██████╔╝   ██║   ╚██████╔╝██║     ██║███████╗╚██████╔╝   ██║   
- ╚═╝  ╚═╝ ╚═════╝    ╚═╝    ╚═════╝ ╚═╝     ╚═╝╚══════╝ ╚═════╝    ╚═╝   
-                                                                         
-    >> WINDOWS AUTOPILOT INFO COLLECTOR <<
-    
-"@ -ForegroundColor Cyan
-    Write-Host " ────────────────────────────────────────────────────────────" -ForegroundColor Gray
+    Write-Host "
+    ___   __  __________  ____  ____  __    ____  ______
+   /   | / / / /_  __/ __ \/ __ \/  _/ /   / __ \/_  __/
+  / /| |/ / / / / / / / / / /_/ // // /   / / / / / /   
+ / ___ / /_/ / / / / /_/ / ____// // /___/ /_/ / / /    
+/_/  |_\____/ /_/  \____/_/   /___/_____/\____/ /_/     
+                                                        
+      >> WINDOWS AUTOPILOT INFO COLLECTOR <<
+    " -ForegroundColor Cyan
+    Write-Host " --------------------------------------------------------" -ForegroundColor Gray
 }
 
 Show-Banner
@@ -36,7 +30,7 @@ $scriptPath = Join-Path $tempPath $scriptName
 
 Set-ExecutionPolicy RemoteSigned -Scope Process -Force | Out-Null
 
-# 2. Smarter Dependency Handling (Offline Support)
+# 2. Smarter Dependency Handling
 if (-not (Test-Path $scriptPath)) {
     Write-Host " [i] Downloading Microsoft script..." -ForegroundColor Yellow
     try {
@@ -45,7 +39,7 @@ if (-not (Test-Path $scriptPath)) {
         if ($downloadedFile -and $downloadedFile.FullName -ne $scriptPath) {
             Move-Item -Path $downloadedFile.FullName -Destination $scriptPath -Force
         }
-        Write-Host " [√] Download complete." -ForegroundColor Green
+        Write-Host " [V] Download complete." -ForegroundColor Green
     } catch {
         Write-Host " [X] Critical Error: Could not download script." -ForegroundColor Red
         Write-Host "     Please check your internet connection." -ForegroundColor White
@@ -53,7 +47,7 @@ if (-not (Test-Path $scriptPath)) {
         exit
     }
 } else {
-    Write-Host " [√] Local script ready." -ForegroundColor Gray
+    Write-Host " [V] Local script ready." -ForegroundColor Gray
 }
 
 # 3. Filename & Path Safety
@@ -96,15 +90,13 @@ try {
 # Validation
 if (Test-Path $outputPath) {
     $sizeKB = [math]::Round((Get-Item $outputPath).Length / 1KB, 1)
-    Write-Host "`n ────────────────────────────────────────────────────────────" -ForegroundColor Gray
-    Write-Host " [SUCCESS]" -ForegroundColor Green -NoNewline
-    Write-Host " File saved to: $outputPath ($sizeKB KB)" -ForegroundColor White
+    Write-Host "`n --------------------------------------------------------" -ForegroundColor Gray
+    Write-Host " [SUCCESS] " -ForegroundColor Green -NoNewline
+    Write-Host "File saved to: $outputPath ($sizeKB KB)" -ForegroundColor White
     
     # Open folder and select file
-    if (Test-Path $outputPath) {
-        $absolutePath = (Resolve-Path $outputPath).Path
-        Start-Process explorer.exe -ArgumentList "/select,`"$absolutePath`""
-    }
+    $absolutePath = (Resolve-Path $outputPath).Path
+    Start-Process explorer.exe -ArgumentList "/select,`"$absolutePath`""
 } else {
     Write-Host " [!] Error: The output file was not created." -ForegroundColor Red
 }
