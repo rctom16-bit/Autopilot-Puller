@@ -1,0 +1,5 @@
+{
+  "TenantId": "your-tenant-id-here",
+  "ClientId": "your-client-id-here",
+  "ClientSecret": "your-client-secret-here"
+}
