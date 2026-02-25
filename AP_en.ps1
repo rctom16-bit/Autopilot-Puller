@@ -1,5 +1,5 @@
 # Windows Autopilot CSV Generator
-# Feb 2026 - V1.3.1 (Fix Encoding)
+# Feb 2026 - V1.3.2 (UTF-8 Compatibility)
 
 # Set UTF8 Encoding for the console to support fancy characters
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
