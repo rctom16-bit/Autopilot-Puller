@@ -1,5 +1,5 @@
 # Windows Autopilot CSV Generator
-# Feb 2026 - V1.2 (Improved English Version)
+# Feb 2026 - V1.2.1 (Improved English Version)
 
 # 1. Administrative Privileges Check
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
@@ -85,7 +85,8 @@ if (Test-Path $outputPath) {
     
     # Open folder and select file
     if (Test-Path $outputPath) {
-        explorer.exe /select, "$outputPath"
+        $absolutePath = (Resolve-Path $outputPath).Path
+        Start-Process explorer.exe -ArgumentList "/select,`"$absolutePath`""
     }
 } else {
     Write-Host "`nError: The output file was not created." -ForegroundColor Red
