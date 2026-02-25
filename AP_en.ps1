@@ -1,5 +1,8 @@
 # Windows Autopilot CSV Generator
-# Feb 2026 - V1.3 (Fancy English Version)
+# Feb 2026 - V1.3.1 (Fix Encoding)
+
+# Set UTF8 Encoding for the console to support fancy characters
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 # 1. Administrative Privileges Check
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
