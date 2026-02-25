@@ -57,6 +57,8 @@ To enable silent, automatic upload to Intune without logging in manually, you ne
 
 > **Note:** `config.json` is excluded from Git via `.gitignore` — your credentials will never be pushed to GitHub.
 
+> **Security:** The USB drive containing `config.json` holds sensitive credentials (Client ID and Client Secret) that grant access to your Intune environment. Store it in a secure location when not in use and treat it like a password.
+
 
 
 Hi there,
